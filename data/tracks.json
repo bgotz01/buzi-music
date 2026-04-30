@@ -1,0 +1,355 @@
+[
+  {
+    "id": "36929fc0-bf42-45b3-970a-f220e684e3bd",
+    "title": "Piso Baixo",
+    "category": "brazil phonk",
+    "bpm": 130,
+    "key": "F",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Piso%20Baixo.mp3",
+    "createdAt": "2026-04-28T00:33:12.726Z",
+    "duration": 107
+  },
+  {
+    "id": "378a4be2-e39e-4acf-ac2e-9a58fd24c2cb",
+    "title": "Samba de ferro",
+    "category": "brazil phonk",
+    "bpm": 130,
+    "key": "F",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Samba%20de%20Ferro%20v2.mp3",
+    "createdAt": "2026-04-28T00:27:31.020Z",
+    "duration": 121,
+    "tags": [
+      "World Cup"
+    ]
+  },
+  {
+    "id": "bac9b0b7-8325-4a1f-902c-032370d619a7",
+    "title": "Samba de ferro v2",
+    "category": "brazil phonk",
+    "bpm": 126,
+    "key": "F",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Samba%20de%20Ferro.mp3",
+    "createdAt": "2026-04-28T00:26:27.038Z",
+    "duration": 103,
+    "tags": [
+      "World Cup"
+    ]
+  },
+  {
+    "id": "422a1825-6f20-43cb-89ba-6a64d1395d2f",
+    "title": "Maracatu Drift",
+    "category": "brazil phonk",
+    "bpm": 127,
+    "key": "F",
+    "keyMode": "major",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Maracatu%20Drift.mp3",
+    "createdAt": "2026-04-28T00:14:26.283Z",
+    "duration": 128
+  },
+  {
+    "id": "ad0f7b8f-a008-4c59-acb5-b176450a179f",
+    "title": "Canarinho run v2",
+    "category": "pop",
+    "bpm": 128,
+    "key": "C#",
+    "keyMode": "major",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Canarinho%20Run%20v2.mp3",
+    "createdAt": "2026-04-28T00:10:32.291Z",
+    "tags": [
+      "world cup"
+    ],
+    "duration": 133
+  },
+  {
+    "id": "95693e98-6ab4-4b31-81a1-b53fbd0c98e9",
+    "title": "Canarinho run",
+    "category": "brazil phonk",
+    "bpm": 127,
+    "key": "F#",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Canarinho%20Run.mp3",
+    "createdAt": "2026-04-28T00:08:40.084Z",
+    "tags": [
+      "world cup"
+    ],
+    "duration": 132
+  },
+  {
+    "id": "4d57a9e7-32ce-4637-83ee-9e808cc049e9",
+    "title": "Gol de Ouro v2",
+    "category": "brazil phonk",
+    "bpm": 129,
+    "key": "F",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Gol%20de%20Ouro%20v2.mp3",
+    "createdAt": "2026-04-28T00:02:32.237Z",
+    "tags": [
+      "world cup"
+    ],
+    "duration": 82
+  },
+  {
+    "id": "3081796e-64ea-4d3d-b0d2-82e331d97cfb",
+    "title": "Gol de Ouro",
+    "category": "brazil phonk",
+    "bpm": 130,
+    "key": "E",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Gol%20de%20Ouro.mp3",
+    "createdAt": "2026-04-28T00:02:05.152Z",
+    "tags": [
+      "world cup"
+    ],
+    "duration": 101
+  },
+  {
+    "id": "e1e27340-b792-46ac-9d4d-36261b1db80b",
+    "title": "Maracatu",
+    "category": "brazil phonk",
+    "bpm": 127,
+    "key": "F",
+    "keyMode": "major",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Maracatu%20Drift.mp3",
+    "createdAt": "2026-04-27T23:46:29.666Z",
+    "duration": 128
+  },
+  {
+    "id": "71246a44-510e-4a20-b939-60b20dfb4372",
+    "title": "Batuque na corda",
+    "category": "pop",
+    "bpm": 100,
+    "key": "E",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Batuque%20na%20Corda.mp3",
+    "createdAt": "2026-04-27T23:44:49.794Z",
+    "duration": 149
+  },
+  {
+    "id": "3dcda86d-147a-4e62-967f-e659763a61c1",
+    "title": "Chama na pista",
+    "category": "brazil phonk",
+    "bpm": 132,
+    "key": "E",
+    "keyMode": "major",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Chama%20na%20Pista.mp3",
+    "createdAt": "2026-04-27T23:39:27.773Z",
+    "duration": 148
+  },
+  {
+    "id": "0e675855-f70d-407b-aa1c-90b0c7e3a92a",
+    "title": "Motor na curva v2",
+    "category": "reggaeton",
+    "bpm": 100,
+    "key": "E",
+    "keyMode": "major",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Motor%20Na%20Curva%20v2.mp3",
+    "createdAt": "2026-04-27T23:37:40.255Z",
+    "duration": 118
+  },
+  {
+    "id": "cf549ac5-e36f-41be-903d-177aecbe508d",
+    "title": "Motor na curva v1",
+    "category": "brazil phonk",
+    "bpm": 130,
+    "key": "A#",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Motor%20Na%20Curva.mp3",
+    "createdAt": "2026-04-27T23:36:00.900Z",
+    "duration": 98
+  },
+  {
+    "id": "1a60e960-16ee-4665-8e6b-fdead940357b",
+    "title": "Trem do gelo",
+    "category": "brazil phonk",
+    "bpm": 100,
+    "key": "E",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Trem%20Do%20Gelo.mp3",
+    "createdAt": "2026-04-27T23:34:47.802Z",
+    "duration": 113
+  },
+  {
+    "id": "b6fd1406-7877-40c9-8cbe-039e07dad6b2",
+    "title": "Chama na pista v2",
+    "category": "brazil phonk",
+    "bpm": 100,
+    "key": "E",
+    "keyMode": "major",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Chama%20na%20Pista%20v2.mp3",
+    "createdAt": "2026-04-27T23:07:45.152Z",
+    "duration": 67
+  },
+  {
+    "id": "6840a736-7593-4d2e-aa82-3561470ad1ec",
+    "title": "Golazo in my veins",
+    "category": "reggaeton",
+    "bpm": 94,
+    "key": "F",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Golazo%20In%20My%20Veins.mp3",
+    "createdAt": "2026-04-27T22:41:19.103Z",
+    "duration": 76
+  },
+  {
+    "id": "bcb0c7ef-0add-4dbf-93dd-171415f0faea",
+    "title": "Golaza v2",
+    "category": "reggaeton",
+    "bpm": 95,
+    "key": "F",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Golazo%20v2.mp3",
+    "createdAt": "2026-04-27T22:40:26.009Z",
+    "duration": 144
+  },
+  {
+    "id": "745581c3-1289-4589-8097-e5c4d53edbf2",
+    "title": "Boi da rua horns",
+    "category": "pop",
+    "bpm": 125,
+    "key": "F",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Boi%20da%20Rua%20Horns.mp3",
+    "createdAt": "2026-04-27T22:38:47.175Z",
+    "duration": 123
+  },
+  {
+    "id": "91560f70-2d26-47bc-ad2f-f08ae1979912",
+    "title": "Batuque arabic",
+    "category": "brazil phonk",
+    "bpm": 125,
+    "key": "E",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Batuque%20Mirage-arabic.mp3",
+    "createdAt": "2026-04-27T22:36:41.639Z",
+    "duration": 163
+  },
+  {
+    "id": "ee306f20-c559-4899-9431-c8b65e150650",
+    "title": "Batuque mirage",
+    "category": "brazil phonk",
+    "bpm": 128,
+    "key": "E",
+    "keyMode": "major",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Batuque%20Mirage.mp3",
+    "createdAt": "2026-04-27T22:35:22.111Z",
+    "duration": 140
+  },
+  {
+    "id": "09430aed-3dc2-4e62-9ca4-d4c686823dfa",
+    "title": "Gol de rua guitar",
+    "category": "brazil phonk",
+    "bpm": 130,
+    "key": "E",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Gol%20de%20Rua-guitar.mp3",
+    "createdAt": "2026-04-27T22:34:01.800Z",
+    "duration": 146
+  },
+  {
+    "id": "ccbfaa0c-83d0-4ba2-a1aa-3ac4335aeb0f",
+    "title": "Joga Sax",
+    "category": "brazil phonk",
+    "bpm": 130,
+    "key": "F#",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Joga%20Joga%20v2.mp3",
+    "createdAt": "2026-04-27T22:33:08.566Z",
+    "duration": 127
+  },
+  {
+    "id": "cea2603d-dc90-41ce-bfbe-a7b77b8544a4",
+    "title": "Gol de rua",
+    "category": "brazil phonk",
+    "bpm": 130,
+    "key": "F",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Gol%20de%20Rua.mp3",
+    "createdAt": "2026-04-27T22:32:01.452Z",
+    "duration": 113
+  },
+  {
+    "id": "a77120ba-ffd5-4e2b-ae3e-39529bd911ea",
+    "title": "Joga joga",
+    "category": "brazil phonk",
+    "bpm": 132,
+    "key": "F#",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Joga%20Joga.mp3",
+    "createdAt": "2026-04-27T22:30:55.692Z",
+    "duration": 92
+  },
+  {
+    "id": "f9103eda-7966-4933-b3a6-427eb9c80f7d",
+    "title": "Copa na rua",
+    "category": "brazil phonk",
+    "bpm": 130,
+    "key": "F",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Midnight%20Run%20in%20Rio.mp3",
+    "createdAt": "2026-04-27T22:29:56.457Z",
+    "duration": 122
+  },
+  {
+    "id": "272991cf-4694-4f0d-9404-02130639fdb7",
+    "title": "Maraca boom",
+    "category": "brazil phonk",
+    "bpm": 97,
+    "key": "E",
+    "keyMode": "minor",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Maraca%20Boom.mp3",
+    "createdAt": "2026-04-27T22:28:51.628Z",
+    "duration": 33
+  },
+  {
+    "id": "16492d3a-44c4-4f16-b9b9-997858db1de6",
+    "title": "Midnight in Rio",
+    "category": "brazil phonk",
+    "bpm": 130,
+    "key": "F#",
+    "keyMode": "major",
+    "thumbnail": "/thumbnails/default.jpg",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Midnight%20Run%20in%20Rio.mp3",
+    "createdAt": "2026-04-27T16:11:33.214Z",
+    "duration": 122
+  },
+  {
+    "id": "6dc00c02-1237-45c4-8dd3-871cf3c38de5",
+    "title": "World cup beat 1",
+    "category": "pop",
+    "bpm": 94,
+    "key": "F",
+    "keyMode": "minor",
+    "audioSrc": "https://wonemdojxifkhvfvqxfh.supabase.co/storage/v1/object/public/audio/Golazo%20In%20My%20Veins.mp3",
+    "createdAt": "2026-04-27T15:49:54.297Z",
+    "duration": 76
+  }
+]
