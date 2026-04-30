@@ -25,8 +25,8 @@ const themeScript = `
   (function () {
     try {
       var stored = localStorage.getItem('theme');
-      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (stored === 'dark' || (!stored && prefersDark)) {
+      // Default to dark unless the user has explicitly chosen light
+      if (stored !== 'light') {
         document.documentElement.classList.add('dark');
       }
     } catch (_) {}
