@@ -55,22 +55,19 @@ export default function TrackRow({ track, index, queue, linked }: { track: Track
                 <span className="pointer-events-none absolute inset-y-2 left-0 w-[3px] rounded-full bg-[var(--color-accent)]" />
             )}
 
-            {/* Col 1 — Index / play button */}
+            {/* Col 1 — Play / pause button */}
             <button
                 onClick={() => play(track, queue)}
                 aria-label={isPlaying ? `Pause ${track.title}` : `Play ${track.title}`}
-                className="flex h-8 w-8 items-center justify-center rounded-full text-[var(--color-text-subtle)] transition-colors hover:text-[var(--color-accent)]"
+                className={`flex h-9 w-9 items-center justify-center rounded-full transition-all duration-150
+                    ${isActive
+                        ? 'bg-[var(--color-accent)] text-white shadow-md shadow-[var(--color-accent)]/30'
+                        : isLinkedIdle
+                            ? 'bg-[var(--color-accent)]/15 text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-white hover:shadow-md hover:shadow-[var(--color-accent)]/30'
+                            : 'bg-[var(--color-bg-subtle)] text-[var(--color-text-muted)] hover:bg-[var(--color-accent)] hover:text-white hover:shadow-md hover:shadow-[var(--color-accent)]/30'
+                    }`}
             >
-                {isPlaying ? (
-                    <PauseIcon size={14} />
-                ) : (
-                    <>
-                        <span className={`text-sm tabular-nums group-hover:hidden ${isLinkedIdle ? 'text-[var(--color-accent)]' : ''}`}>
-                            {index + 1}
-                        </span>
-                        <span className="hidden group-hover:flex"><PlayIcon size={14} /></span>
-                    </>
-                )}
+                {isPlaying ? <PauseIcon size={15} /> : <PlayIcon size={15} />}
             </button>
 
             {/* Col 2 — Title + tags + mobile meta */}
@@ -133,10 +130,10 @@ export default function TrackRow({ track, index, queue, linked }: { track: Track
                 onClick={handleShare}
                 aria-label={copied ? 'Link copied' : `Copy link to ${track.title}`}
                 className={`flex items-center gap-1.5 rounded-lg border px-2 py-1 text-xs font-medium transition-all ${copied
-                        ? 'border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10 text-[var(--color-accent)]'
-                        : isLinkedIdle
-                            ? 'border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 text-[var(--color-accent)] hover:bg-[var(--color-accent)]/20'
-                            : 'border-[var(--color-border)] text-[var(--color-text-subtle)] sm:border-transparent sm:opacity-0 sm:group-hover:opacity-100 sm:group-hover:border-[var(--color-border)] hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]/40 hover:bg-[var(--color-accent)]/5'
+                    ? 'border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10 text-[var(--color-accent)]'
+                    : isLinkedIdle
+                        ? 'border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 text-[var(--color-accent)] hover:bg-[var(--color-accent)]/20'
+                        : 'border-[var(--color-border)] text-[var(--color-text-subtle)] sm:border-transparent sm:opacity-0 sm:group-hover:opacity-100 sm:group-hover:border-[var(--color-border)] hover:text-[var(--color-accent)] hover:border-[var(--color-accent)]/40 hover:bg-[var(--color-accent)]/5'
                     }`}
             >
                 {copied ? (
