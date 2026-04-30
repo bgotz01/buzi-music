@@ -1,58 +1,55 @@
 import { NextResponse } from 'next/server'
-import { readFileSync, writeFileSync } from 'fs'
-import { join } from 'path'
+import { supabase } from '@/lib/supabase'
 import type { Track } from '@/app/data/tracks'
 
-const DATA_PATH = join(process.cwd(), 'data', 'tracks.json')
-
-function readTracks(): Track[] {
-    try {
-        return JSON.parse(readFileSync(DATA_PATH, 'utf-8'))
-    } catch {
-        return []
-    }
-}
-
-function writeTracks(tracks: Track[]) {
-    writeFileSync(DATA_PATH, JSON.stringify(tracks, null, 2), 'utf-8')
-}
-
 export async function GET() {
-    return NextResponse.json(readTracks())
+    const { data, error } = await supabase
+        .from('tracks')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+    if (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 })
+    }
+
+    // Map snake_case DB columns → camelCase Track type
+    const tracks: Track[] = (data ?? []).map(dbToTrack)
+    return NextResponse.json(tracks)
 }
 
 export async function POST(req: Request) {
     const body = await req.json()
-
     const { title, category, bpm, key, keyMode, thumbnail, audioSrc, duration, tags } = body
 
     const validCategories = ['brazil phonk', 'reggaeton', 'house', 'pop', 'funk']
     if (!title || !audioSrc || !category || !validCategories.includes(category)) {
         return NextResponse.json(
             { error: 'title, category (brazil phonk | reggaeton | house | pop | funk), and audioSrc are required' },
-            { status: 400 }
+            { status: 400 },
         )
     }
 
-    const track: Track = {
-        id: crypto.randomUUID(),
-        title: String(title).trim(),
-        category,
-        bpm: bpm ? Number(bpm) : undefined,
-        key: key || undefined,
-        keyMode: keyMode || undefined,
-        thumbnail: thumbnail ? String(thumbnail).trim() : undefined,
-        audioSrc: String(audioSrc).trim(),
-        duration: duration ? Number(duration) : undefined,
-        tags: Array.isArray(tags) ? tags : undefined,
-        createdAt: new Date().toISOString(),
+    const { data, error } = await supabase
+        .from('tracks')
+        .insert({
+            title: String(title).trim(),
+            category,
+            bpm: bpm ? Number(bpm) : null,
+            key: key || null,
+            key_mode: keyMode || null,
+            thumbnail: thumbnail ? String(thumbnail).trim() : null,
+            audio_src: String(audioSrc).trim(),
+            duration: duration ? Number(duration) : null,
+            tags: Array.isArray(tags) ? tags : null,
+        })
+        .select()
+        .single()
+
+    if (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    const tracks = readTracks()
-    tracks.unshift(track)   // newest first
-    writeTracks(tracks)
-
-    return NextResponse.json(track, { status: 201 })
+    return NextResponse.json(dbToTrack(data), { status: 201 })
 }
 
 export async function DELETE(req: Request) {
@@ -61,8 +58,11 @@ export async function DELETE(req: Request) {
         return NextResponse.json({ error: 'id is required' }, { status: 400 })
     }
 
-    const tracks = readTracks().filter((t) => t.id !== id)
-    writeTracks(tracks)
+    const { error } = await supabase.from('tracks').delete().eq('id', id)
+
+    if (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 })
+    }
 
     return NextResponse.json({ ok: true })
 }
@@ -75,23 +75,43 @@ export async function PATCH(req: Request) {
         return NextResponse.json({ error: 'id is required' }, { status: 400 })
     }
 
-    const tracks = readTracks()
-    const idx = tracks.findIndex((t) => t.id === id)
+    const { data, error } = await supabase
+        .from('tracks')
+        .update({
+            ...(updates.title !== undefined && { title: String(updates.title).trim() }),
+            ...(updates.category !== undefined && { category: updates.category }),
+            ...(updates.bpm !== undefined && { bpm: updates.bpm ? Number(updates.bpm) : null }),
+            ...(updates.key !== undefined && { key: updates.key || null }),
+            ...(updates.keyMode !== undefined && { key_mode: updates.keyMode || null }),
+            ...(updates.thumbnail !== undefined && { thumbnail: updates.thumbnail || null }),
+            ...(updates.audioSrc !== undefined && { audio_src: String(updates.audioSrc).trim() }),
+            ...(updates.duration !== undefined && { duration: updates.duration ? Number(updates.duration) : null }),
+            ...(updates.tags !== undefined && { tags: Array.isArray(updates.tags) ? updates.tags : null }),
+        })
+        .eq('id', id)
+        .select()
+        .single()
 
-    if (idx === -1) {
-        return NextResponse.json({ error: 'track not found' }, { status: 404 })
+    if (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    tracks[idx] = {
-        ...tracks[idx],
-        ...updates,
-        bpm: updates.bpm ? Number(updates.bpm) : tracks[idx].bpm,
-        key: updates.key || tracks[idx].key,
-        id, // never overwrite id
-        createdAt: tracks[idx].createdAt, // never overwrite createdAt
+    return NextResponse.json(dbToTrack(data))
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function dbToTrack(row: any): Track {
+    return {
+        id: row.id,
+        title: row.title,
+        category: row.category,
+        bpm: row.bpm ?? undefined,
+        key: row.key ?? undefined,
+        keyMode: row.key_mode ?? undefined,
+        thumbnail: row.thumbnail ?? undefined,
+        audioSrc: row.audio_src,
+        duration: row.duration ?? undefined,
+        tags: row.tags ?? undefined,
+        createdAt: row.created_at,
     }
-
-    writeTracks(tracks)
-
-    return NextResponse.json(tracks[idx])
 }

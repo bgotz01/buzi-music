@@ -1,8 +1,10 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect, useRef } from 'react'
 import TrackRow from './TrackRow'
 import type { Track, Category } from '@/app/data/tracks'
+import { useAudio } from '@/app/context/AudioContext'
+import { useSearchParams } from 'next/navigation'
 
 const CATEGORIES: Category[] = ['brazil phonk', 'reggaeton', 'house', 'pop', 'funk']
 
@@ -10,6 +12,9 @@ export default function TrackList({ tracks }: { tracks: Track[] }) {
     const [activeCategories, setActiveCategories] = useState<Set<Category>>(new Set())
     const [activeTags, setActiveTags] = useState<Set<string>>(new Set())
     const [search, setSearch] = useState('')
+    const { play } = useAudio()
+    const searchParams = useSearchParams()
+    const didAutoPlay = useRef(false)
 
     // Collect all unique tags across all tracks, sorted alphabetically
     const allTags = useMemo(() => {
@@ -17,6 +22,20 @@ export default function TrackList({ tracks }: { tracks: Track[] }) {
         tracks.forEach((t) => t.tags?.forEach((tag) => set.add(tag)))
         return [...set].sort()
     }, [tracks])
+
+    // Highlight track from ?track= param on first load (no autoplay — browser blocks it)
+    useEffect(() => {
+        if (didAutoPlay.current) return
+        const id = searchParams.get('track')
+        if (!id) return
+        const target = tracks.find((t) => t.id === id)
+        if (!target) return
+        didAutoPlay.current = true
+        // Scroll the row into view after a short paint delay
+        setTimeout(() => {
+            document.getElementById(`track-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }, 150)
+    }, [searchParams, tracks])
 
     function toggleCategory(cat: Category) {
         setActiveCategories((prev) => {
@@ -85,53 +104,59 @@ export default function TrackList({ tracks }: { tracks: Track[] }) {
             </div>
 
             {/* Category toggles */}
-            <div className="mb-3 flex flex-wrap gap-2">
-                {CATEGORIES.map((cat) => {
-                    const on = activeCategories.has(cat)
-                    return (
-                        <button
-                            key={cat}
-                            onClick={() => toggleCategory(cat)}
-                            aria-pressed={on}
-                            className={`rounded-full border px-4 py-1.5 text-sm font-medium capitalize transition-colors ${on
-                                ? 'border-[var(--color-accent)] bg-[var(--color-accent)] text-white'
-                                : 'border-[var(--color-border)] bg-transparent text-[var(--color-text-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]'
-                                }`}
-                        >
-                            {cat}
-                        </button>
-                    )
-                })}
+            <div className="mb-6">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[var(--color-text-subtle)]">Genre</p>
+                <div className="flex flex-wrap gap-2">
+                    {CATEGORIES.map((cat) => {
+                        const on = activeCategories.has(cat)
+                        return (
+                            <button
+                                key={cat}
+                                onClick={() => toggleCategory(cat)}
+                                aria-pressed={on}
+                                className={`rounded-full border px-4 py-1.5 text-sm font-medium capitalize transition-colors ${on
+                                    ? 'border-[var(--color-accent)] bg-[var(--color-accent)] text-white'
+                                    : 'border-[var(--color-border)] bg-transparent text-[var(--color-text-muted)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]'
+                                    }`}
+                            >
+                                {cat}
+                            </button>
+                        )
+                    })}
+                </div>
             </div>
 
             {/* Tag toggles — only shown if any tracks have tags */}
             {allTags.length > 0 && (
-                <div className="mb-8 flex flex-wrap gap-2">
-                    {allTags.map((tag) => {
-                        const on = activeTags.has(tag)
-                        return (
-                            <button
-                                key={tag}
-                                onClick={() => toggleTag(tag)}
-                                aria-pressed={on}
-                                className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${on
-                                    ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)]'
-                                    : 'border-[var(--color-border)] bg-transparent text-[var(--color-text-subtle)] hover:border-[var(--color-accent)]/50 hover:text-[var(--color-text-muted)]'
-                                    }`}
-                            >
-                                {tag}
-                            </button>
-                        )
-                    })}
+                <div className="mb-8">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[var(--color-text-subtle)]">Tags</p>
+                    <div className="flex flex-wrap gap-2">
+                        {allTags.map((tag) => {
+                            const on = activeTags.has(tag)
+                            return (
+                                <button
+                                    key={tag}
+                                    onClick={() => toggleTag(tag)}
+                                    aria-pressed={on}
+                                    className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${on
+                                        ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)]'
+                                        : 'border-[var(--color-border)] bg-transparent text-[var(--color-text-subtle)] hover:border-[var(--color-accent)]/50 hover:text-[var(--color-text-muted)]'
+                                        }`}
+                                >
+                                    {tag}
+                                </button>
+                            )
+                        })}
 
-                    {hasFilters && (
-                        <button
-                            onClick={clearAll}
-                            className="rounded-full border border-transparent px-3 py-1 text-xs text-[var(--color-text-subtle)] transition-colors hover:text-[var(--color-text)]"
-                        >
-                            clear all
-                        </button>
-                    )}
+                        {hasFilters && (
+                            <button
+                                onClick={clearAll}
+                                className="rounded-full border border-transparent px-3 py-1 text-xs text-[var(--color-text-subtle)] transition-colors hover:text-[var(--color-text)]"
+                            >
+                                clear all
+                            </button>
+                        )}
+                    </div>
                 </div>
             )}
 
@@ -150,18 +175,21 @@ export default function TrackList({ tracks }: { tracks: Track[] }) {
             {/* Track list */}
             {filtered.length > 0 ? (
                 <div>
-                    <div className="mb-1 grid grid-cols-[2rem_1fr_auto] gap-4 px-4 sm:grid-cols-[2rem_1fr_8rem_5rem_5rem_auto]">
+                    <div className="mb-1 grid gap-4 px-4
+                        grid-cols-[2rem_1fr_auto]
+                        sm:grid-cols-[2rem_1fr_8rem_5rem_5rem_4rem_5rem]">
                         <span />
                         <span className="text-xs font-medium uppercase tracking-wider text-[var(--color-text-subtle)]">Title</span>
                         <span className="hidden text-xs font-medium uppercase tracking-wider text-[var(--color-text-subtle)] sm:block">Category</span>
                         <span className="hidden text-xs font-medium uppercase tracking-wider text-[var(--color-text-subtle)] sm:block">Key</span>
                         <span className="hidden text-xs font-medium uppercase tracking-wider text-[var(--color-text-subtle)] sm:block">BPM</span>
-                        <span className="text-xs font-medium uppercase tracking-wider text-[var(--color-text-subtle)]">Time</span>
+                        <span className="hidden text-xs font-medium uppercase tracking-wider text-[var(--color-text-subtle)] sm:block">Time</span>
+                        <span className="text-xs font-medium uppercase tracking-wider text-[var(--color-text-subtle)]">Share</span>
                     </div>
                     <div className="mb-2 border-t border-[var(--color-border)]" />
                     <div className="flex flex-col">
                         {filtered.map((track, i) => (
-                            <TrackRow key={track.id} track={track} index={i} queue={filtered} />
+                            <TrackRow key={track.id} track={track} index={i} queue={filtered} linked={searchParams.get('track') === track.id} />
                         ))}
                     </div>
                 </div>

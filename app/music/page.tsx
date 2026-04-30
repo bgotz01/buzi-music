@@ -1,14 +1,40 @@
 import TrackList from '@/app/components/TrackList'
 import type { Track } from '@/app/data/tracks'
-import tracksData from '@/data/tracks.json'
+import { supabase } from '@/lib/supabase'
+import { Suspense } from 'react'
 
 export const metadata = {
     title: 'Music — buzi',
     description: 'Listen to beats and tracks by buzi.',
 }
 
-export default function MusicPage() {
-    const tracks = tracksData as Track[]
+export const dynamic = 'force-dynamic'
+
+async function getTracks(): Promise<Track[]> {
+    const { data, error } = await supabase
+        .from('tracks')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+    if (error || !data) return []
+
+    return data.map((row) => ({
+        id: row.id,
+        title: row.title,
+        category: row.category,
+        bpm: row.bpm ?? undefined,
+        key: row.key ?? undefined,
+        keyMode: row.key_mode ?? undefined,
+        thumbnail: row.thumbnail ?? undefined,
+        audioSrc: row.audio_src,
+        duration: row.duration ?? undefined,
+        tags: row.tags ?? undefined,
+        createdAt: row.created_at,
+    }))
+}
+
+export default async function MusicPage() {
+    const tracks = await getTracks()
 
     return (
         <div className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6">
@@ -26,7 +52,9 @@ export default function MusicPage() {
             </div>
 
             {tracks.length > 0 ? (
-                <TrackList tracks={tracks} />
+                <Suspense>
+                    <TrackList tracks={tracks} />
+                </Suspense>
             ) : (
                 <p className="text-[var(--color-text-subtle)]">
                     No tracks yet — add some at{' '}

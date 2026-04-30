@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import type { Category, MusicalKey, KeyMode, Track } from '@/app/data/tracks'
 
 const CATEGORIES: Category[] = ['brazil phonk', 'reggaeton', 'house', 'pop', 'funk']
@@ -14,7 +14,7 @@ type FormState = {
     key: MusicalKey | ''
     keyMode: KeyMode
     audioSrc: string
-    tags: string
+    tags: string[]
 }
 
 function trackToForm(track?: Track): FormState {
@@ -25,22 +25,79 @@ function trackToForm(track?: Track): FormState {
         key: track?.key ?? '',
         keyMode: track?.keyMode ?? 'minor',
         audioSrc: track?.audioSrc ?? '',
-        tags: track?.tags?.join(', ') ?? '',
+        tags: track?.tags ?? [],
     }
 }
 
 interface Props {
     track?: Track
+    allTags?: string[]
     onSuccess?: () => void
 }
 
-export default function TrackForm({ track, onSuccess }: Props) {
+export default function TrackForm({ track, allTags = [], onSuccess }: Props) {
     const isEdit = !!track
     const [form, setForm] = useState<FormState>(trackToForm(track))
     const [duration, setDuration] = useState<number | undefined>(track?.duration)
     const [durationStatus, setDurationStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
     const [error, setError] = useState('')
+
+    // Tag autocomplete state
+    const [tagInput, setTagInput] = useState('')
+    const [showSuggestions, setShowSuggestions] = useState(false)
+    const tagInputRef = useRef<HTMLInputElement>(null)
+    const suggestionsRef = useRef<HTMLDivElement>(null)
+
+    const suggestions = tagInput.trim()
+        ? allTags.filter(
+            (t) =>
+                t.toLowerCase().startsWith(tagInput.trim().toLowerCase()) &&
+                !form.tags.map((x) => x.toLowerCase()).includes(t.toLowerCase()),
+        )
+        : []
+
+    function addTag(tag: string) {
+        const trimmed = tag.trim()
+        if (!trimmed) return
+        if (form.tags.map((t) => t.toLowerCase()).includes(trimmed.toLowerCase())) return
+        setForm((f) => ({ ...f, tags: [...f.tags, trimmed] }))
+        setTagInput('')
+        setShowSuggestions(false)
+    }
+
+    function removeTag(tag: string) {
+        setForm((f) => ({ ...f, tags: f.tags.filter((t) => t !== tag) }))
+    }
+
+    function handleTagKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key === 'Enter' || e.key === ',') {
+            e.preventDefault()
+            if (suggestions.length > 0) {
+                addTag(suggestions[0])
+            } else {
+                addTag(tagInput)
+            }
+        } else if (e.key === 'Backspace' && tagInput === '' && form.tags.length > 0) {
+            removeTag(form.tags[form.tags.length - 1])
+        } else if (e.key === 'Escape') {
+            setShowSuggestions(false)
+        }
+    }
+
+    // Close suggestions on outside click
+    useEffect(() => {
+        function onMouseDown(e: MouseEvent) {
+            if (
+                !tagInputRef.current?.contains(e.target as Node) &&
+                !suggestionsRef.current?.contains(e.target as Node)
+            ) {
+                setShowSuggestions(false)
+            }
+        }
+        document.addEventListener('mousedown', onMouseDown)
+        return () => document.removeEventListener('mousedown', onMouseDown)
+    }, [])
 
     function set(field: keyof FormState, value: string) {
         setForm((f) => ({ ...f, [field]: value }))
@@ -87,9 +144,7 @@ export default function TrackForm({ track, onSuccess }: Props) {
             bpm: form.bpm ? Number(form.bpm) : undefined,
             key: form.key || undefined,
             duration: duration ?? undefined,
-            tags: form.tags
-                ? form.tags.split(',').map((t) => t.trim()).filter(Boolean)
-                : undefined,
+            tags: form.tags.length > 0 ? form.tags : undefined,
         }
 
         try {
@@ -197,14 +252,63 @@ export default function TrackForm({ track, onSuccess }: Props) {
                 )}
             </Field>
 
-            <Field label="Tags" hint="Comma-separated — e.g. guitar, goofy, dark">
-                <input
-                    type="text"
-                    value={form.tags}
-                    onChange={(e) => set('tags', e.target.value)}
-                    placeholder="guitar, goofy, dark"
-                    className={inputCls}
-                />
+            <Field label="Tags" hint="Type a tag and press Enter or comma to add">
+                <div className="relative">
+                    {/* Chips + input */}
+                    <div
+                        className="flex min-h-[38px] flex-wrap gap-1.5 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-subtle)] px-2 py-1.5 transition-colors focus-within:border-[var(--color-accent)] focus-within:ring-2 focus-within:ring-[var(--color-accent)]/20"
+                        onClick={() => tagInputRef.current?.focus()}
+                    >
+                        {form.tags.map((tag) => (
+                            <span
+                                key={tag}
+                                className="flex items-center gap-1 rounded-md bg-[var(--color-accent)]/10 px-2 py-0.5 text-xs font-medium text-[var(--color-accent)]"
+                            >
+                                {tag}
+                                <button
+                                    type="button"
+                                    onClick={(e) => { e.stopPropagation(); removeTag(tag) }}
+                                    className="leading-none opacity-60 hover:opacity-100"
+                                    aria-label={`Remove tag ${tag}`}
+                                >
+                                    ×
+                                </button>
+                            </span>
+                        ))}
+                        <input
+                            ref={tagInputRef}
+                            type="text"
+                            value={tagInput}
+                            onChange={(e) => {
+                                setTagInput(e.target.value)
+                                setShowSuggestions(true)
+                            }}
+                            onKeyDown={handleTagKeyDown}
+                            onFocus={() => setShowSuggestions(true)}
+                            placeholder={form.tags.length === 0 ? 'world cup, guitar…' : ''}
+                            className="min-w-[120px] flex-1 bg-transparent text-sm text-[var(--color-text)] outline-none placeholder:text-[var(--color-text-subtle)]"
+                        />
+                    </div>
+
+                    {/* Suggestions dropdown */}
+                    {showSuggestions && suggestions.length > 0 && (
+                        <div
+                            ref={suggestionsRef}
+                            className="absolute left-0 right-0 top-full z-10 mt-1 overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-elevated)] shadow-lg"
+                        >
+                            {suggestions.map((s) => (
+                                <button
+                                    key={s}
+                                    type="button"
+                                    onMouseDown={(e) => { e.preventDefault(); addTag(s) }}
+                                    className="w-full px-3 py-2 text-left text-sm text-[var(--color-text)] transition-colors hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)]"
+                                >
+                                    {s}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </Field>
 
             {status === 'error' && (
